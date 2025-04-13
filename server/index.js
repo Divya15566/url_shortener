@@ -6,9 +6,14 @@ const bcrypt = require('bcryptjs');
 
 const app = express();
 
+app.get('/', (req, res) => {
+  res.send('Backend is live 🚀');
+});
+
+
 // Enhanced CORS configuration
 app.use(cors({
-  origin: 'https://url-shortener-xi-sage.vercel.app/',
+  origin: 'https://url-shortener-xi-sage.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true

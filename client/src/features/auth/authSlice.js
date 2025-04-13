@@ -7,7 +7,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/auth/login', credentials, {
+      const response = await axios.post('https://url-shortener-dx3x.onrender.com/api/login', credentials, {
         headers: {
           'Content-Type': 'application/json'
         },
