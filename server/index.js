@@ -8,7 +8,7 @@ const app = express();
 
 // Enhanced CORS configuration
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://url-shortener-69fblj4dv-divyas-projects-896be9cd.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
