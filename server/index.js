@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 
 // Enhanced CORS configuration
 app.use(cors({
-  origin: 'https://url-shortener-xi-sage.vercel.app',
+  origin: ['http://localhost:3000','https://url-shortener-xi-sage.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true

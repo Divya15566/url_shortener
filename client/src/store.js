@@ -1,13 +1,13 @@
+// app/store.js
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './features/auth/authSlice';
-import urlReducer from './features/url/urlSlice';
+import authReducer from '../features/auth/authSlice';
 
-// Create the store
-const store = configureStore({
+export default configureStore({
   reducer: {
     auth: authReducer,
-    url: urlReducer
-  }
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
-
-export default store;

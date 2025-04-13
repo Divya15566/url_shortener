@@ -1,24 +1,28 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+// features/auth/authSlice.js
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios'; // or use fetch
+import api from '../../api/axios';
 
-// Async thunk for login
 export const login = createAsyncThunk(
   'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post('https://url-shortener-dx3x.onrender.com/api/login', credentials, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        withCredentials: true
-      });
-      localStorage.setItem('token', response.data.token);
+      const response = await axios.post(
+        '/api/login',
+        credentials,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       return response.data;
     } catch (err) {
-      const error = err.response?.data?.error || err.message;
-      toast.error(error);
-      return rejectWithValue(error);
+      // Handle different error responses
+      if (err.response) {
+        return rejectWithValue(err.response.data.message || 'Login failed');
+      }
+      return rejectWithValue('Network error');
     }
   }
 );
@@ -26,17 +30,12 @@ export const login = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    token: localStorage.getItem('token'),
+    user: null,
+    token: null,
     isLoading: false,
-    error: null
+    error: null,
   },
-  reducers: {
-    logout: (state) => {
-      localStorage.removeItem('token');
-      state.token = null;
-      state.error = null;
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -45,15 +44,14 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.user = action.payload.user;
         state.token = action.payload.token;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload?.error;
+        state.error = action.payload;
       });
-  }
+  },
 });
 
-// Export the logout action and reducer
-export const { logout } = authSlice.actions;
 export default authSlice.reducer;
