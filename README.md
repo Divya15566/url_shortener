@@ -29,7 +29,7 @@ A full-stack URL shortener application that allows users to create, manage, and 
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/Divya15566/url_shortener.git
 cd url-shortener
 ```
 
