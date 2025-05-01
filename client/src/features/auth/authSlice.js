@@ -3,8 +3,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { jwtDecode } from 'jwt-decode';  // New syntax (v3.x+)
 
-// Base API configuration
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://url-shortener-dx3x.onrender.com';
+// Updated API_BASE_URL to point to the local backend
+const API_BASE_URL = 'http://localhost:5000';
 
 // Helper function to validate token
 const isValidToken = (token) => {
@@ -120,7 +120,13 @@ export const logout = createAsyncThunk(
 // Initial state with persisted auth
 const initialState = {
   token: localStorage.getItem('token'),
-  user: JSON.parse(localStorage.getItem('user')),
+  user: (() => {
+    try {
+      return JSON.parse(localStorage.getItem('user')) || null;
+    } catch {
+      return null;
+    }
+  })(),
   isLoading: false,
   error: null,
   isAuthenticated: isValidToken(localStorage.getItem('token'))

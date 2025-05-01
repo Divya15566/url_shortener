@@ -76,4 +76,20 @@ router.get('/myurls', auth, async (req, res) => {
   }
 });
 
+// DELETE endpoint to delete a URL by ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const url = await ShortUrl.findByIdAndDelete(req.params.id);
+
+    if (!url) {
+      return res.status(404).json({ error: 'URL not found' });
+    }
+
+    res.json({ message: 'URL deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting URL:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 module.exports = router;

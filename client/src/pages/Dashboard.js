@@ -2,7 +2,7 @@ import React, { useEffect , useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getMyUrls } from '../features/url/urlSlice';  
+import { getMyUrls, deleteUrl } from '../features/url/urlSlice';  
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,6 +16,7 @@ import {
   ArcElement
 } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
+import { FaTrash } from 'react-icons/fa';
 
 ChartJS.register(
   CategoryScale,
@@ -49,6 +50,10 @@ function Dashboard() {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
     toast.success('Copied to clipboard!');
+  };
+  
+  const handleDelete = (id) => {
+    dispatch(deleteUrl(id));
   };
   
   // Prepare data for charts (example with mock data)
@@ -148,6 +153,11 @@ function Dashboard() {
                           >
                             View Analytics
                           </Link>
+                        </td>
+                        <td>
+                          <button onClick={() => handleDelete(url._id)} className="btn btn-danger flex items-center">
+                            <FaTrash className="mr-2" /> 
+                          </button>
                         </td>
                       </tr>
                     ))}

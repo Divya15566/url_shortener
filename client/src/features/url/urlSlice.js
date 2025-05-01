@@ -60,6 +60,19 @@ export const getAnalytics = createAsyncThunk(
   }
 );
 
+// Async thunk for deleting a URL
+export const deleteUrl = createAsyncThunk(
+  'url/deleteUrl',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`/api/url/${id}`);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 // Slice
 const urlSlice = createSlice({
   name: 'url',
@@ -113,6 +126,11 @@ const urlSlice = createSlice({
       .addCase(getAnalytics.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload?.error;
+      })
+      
+      // Delete URL
+      .addCase(deleteUrl.fulfilled, (state, action) => {
+        state.urls = state.urls.filter((url) => url._id !== action.meta.arg);
       });
   }
 });

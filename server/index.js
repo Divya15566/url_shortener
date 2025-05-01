@@ -10,17 +10,15 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'Backend operational' });
 });
 
-// Enhanced CORS configuration
+// Updated CORS configuration to allow 'X-Requested-With' header
 app.use(cors({
-  
-  origin: ['http://localhost:3000','https://url-shortener-xi-sage.vercel.app'],
+  origin: ['http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true
 }));
 
 // Body parsing middleware
-app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
